@@ -1,5 +1,4 @@
 import Calculator from '../components/Calculator';
-import InputField from '../components/InputField';
 import { useAuth } from '../utils/context/authContext'; // TODO: COMMENT IN FOR AUTH
 
 function Home() {
@@ -16,7 +15,6 @@ function Home() {
       }}
     >
       <h1>Hello {user.displayName}! </h1>
-      <InputField />
       <Calculator />
     </div>
   );
