@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export default function InputField({ value }) {
   return (
     <>
-      <Form.Control type="text" value={value} />
+      <Form.Control type="text" value={value} readOnly />
     </>
   );
 }

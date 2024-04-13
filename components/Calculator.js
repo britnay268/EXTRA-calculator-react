@@ -1,26 +1,57 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 import { Button } from 'react-bootstrap';
 import React, { useState } from 'react';
 import CalcStyles from '../styles/Calculator.module.css';
 import InputField from './InputField';
-// import PropTypes from 'prop-types';
 
 export default function Calculator() {
-  const [inputValue, setInputValue] = useState('');
+  // useState helps mnage variables within the function
 
-  // this takes a param called btn and it will hold the value of the clicked button
+  // setInputValue and setExpression are FUNCTIONS to update their respective states
+
+  // inputValue is a VARIABLE that stores the current value displayed on the calculator
+  const [inputValue, setInputValue] = useState('');
+  // expression stores the complete user input (numbers and operators)
+  const [expression, setExpression] = useState('');
+  const [currentValue, setCurrentValue] = useState('');
+
+  // Function is called whenever the button is clicked
+  // This function takes a param called btn and it will hold the value of the clicked button
   const handleButtonClick = (btn) => {
-    // console.warn(`Button clicked: ${btn}`);
-    if (btn) {
-      setInputValue(inputValue + btn);
+    // Example of how it works: If the user clicks the button "5", the handleButtonClick function might update inputValue to "5" (to show on the display) and expression to "5" (to store the user input).
+
+    if (btn === 'C') {
+      setInputValue('');
+      setExpression('');
+    } else if (btn === '=') {
+      try {
+        if (expression.includes('+')) {
+          const indvidualNum = expression.split('+');
+          const sum = indvidualNum.reduce((prevNum, currentNum) => parseFloat(prevNum) + parseFloat(currentNum));
+          setInputValue(sum.toString());
+          setExpression('');
+          setCurrentValue(currentValue);
+        }
+        // setInputValue(result.toString());
+      } catch (error) {
+        console.error('Error evaluating expression:', error);
+        setInputValue('Error'); // Or display a more user-friendly error message
+      }
+    } else {
+      // if button is clicked, this line updates the inputValue variable by taking the current inputValue and adds the btn value to it
+      setInputValue(expression + btn);
+      setExpression(expression + btn);
+      setCurrentValue('');
     }
   };
 
   const btnText = [
-    ['C', '^', '%', '/'],
-    [7, 8, 9, 'x'],
+    ['C', 'DEL', '%', '/'],
+    [7, 8, 9, '*'],
     [4, 5, 6, '-'],
     [1, 2, 3, '+'],
-    [0, '.', '='],
+    ['+/-', 0, '.', '='],
   ];
 
   return (
@@ -29,7 +60,13 @@ export default function Calculator() {
       <div className={CalcStyles.gridBtn}>
         {btnText.flat().map((btn) => (
         // onclick calls handleButtonClick and passes the current btn value as an argument
-          <Button className={`${CalcStyles.buttonColor}`} key={btn} onClick={() => handleButtonClick(btn)}>{btn}</Button>
+          <Button
+            className={CalcStyles.buttonColor}
+            key={btn}
+            onClick={() => handleButtonClick(btn)}
+          >
+            {btn}
+          </Button>
         ))}
       </div>
     </>
