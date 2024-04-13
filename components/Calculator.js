@@ -14,6 +14,7 @@ export default function Calculator() {
   const [inputValue, setInputValue] = useState('');
   // expression stores the complete user input (numbers and operators)
   const [expression, setExpression] = useState('');
+  // currentValue empties the inputfield after an expression was calculated and a new button is clicked.
   const [currentValue, setCurrentValue] = useState('');
 
   // Function is called whenever the button is clicked
@@ -24,6 +25,9 @@ export default function Calculator() {
     if (btn === 'C') {
       setInputValue('');
       setExpression('');
+    } else if (btn === 'DEL') {
+      setInputValue(inputValue.slice(0, -1));
+      setExpression(inputValue.slice(0, -1));
     } else if (btn === '=') {
       try {
         if (expression.includes('+')) {
