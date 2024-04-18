@@ -36,8 +36,13 @@ export default function Calculator() {
           setInputValue(sum.toString());
           setExpression('');
           setCurrentValue(currentValue);
+        } else if (expression.includes('-')) {
+          const indvidualNum = expression.split('-');
+          const reduction = indvidualNum.reduce((prevNum, currentNum) => parseFloat(prevNum) - parseFloat(currentNum));
+          setInputValue(reduction.toString());
+          setExpression('');
+          setCurrentValue(currentValue);
         }
-        // setInputValue(result.toString());
       } catch (error) {
         console.error('Error evaluating expression:', error);
         setInputValue('Error'); // Or display a more user-friendly error message
@@ -51,18 +56,18 @@ export default function Calculator() {
   };
 
   const btnText = [
-    ['C', 'DEL', '%', '/'],
-    [7, 8, 9, '*'],
-    [4, 5, 6, '-'],
-    [1, 2, 3, '+'],
-    ['+/-', 0, '.', '='],
+    'C', 'DEL', '%', '/',
+    7, 8, 9, '*',
+    4, 5, 6, '-',
+    1, 2, 3, '+',
+    '+/-', 0, '.', '=',
   ];
 
   return (
     <>
       <InputField value={inputValue} />
       <div className={CalcStyles.gridBtn}>
-        {btnText.flat().map((btn) => (
+        {btnText.map((btn) => (
         // onclick calls handleButtonClick and passes the current btn value as an argument
           <Button
             className={CalcStyles.buttonColor}
